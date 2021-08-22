@@ -1,0 +1,6 @@
+# ignore objects
+*.o
+
+# ignore executables
+*.elf
+*.bin
