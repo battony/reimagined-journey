@@ -1,0 +1,9 @@
+#include "descriptor.h"
+
+const uint8_t descriptor_string_configuration[] = {
+    0x08,
+    0x03,
+    0x48, 0x00,
+    0x49, 0x00,
+    0x44, 0x00,
+};
