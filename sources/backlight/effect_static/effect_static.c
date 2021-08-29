@@ -1,14 +1,16 @@
 #include "effect_static.h"
 
-#define EFFECT_STATIC_MODE_COUNT (4)
+#define EFFECT_STATIC_MODE_COUNT (3)
 
 const effect_t effect_static = {
-    .update      = effect_static_update,
-    .update_mode = effect_static_update_mode,
+    .init            = NULL,
+    .update          = effect_static_update,
+    .update_mode     = effect_static_update_mode,
+    .update_keyboard = NULL,
 };
 
 static const uint32_t effect_static_modes[EFFECT_STATIC_MODE_COUNT] = {
-    0x000000, 0x702818, 0x287018, 0x3A3A3A,
+    0x702818, 0x287018, 0x182870,
 };
 
 static volatile uint8_t effect_static_mode_id;

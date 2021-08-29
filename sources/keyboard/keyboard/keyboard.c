@@ -84,4 +84,5 @@ void interrupt_tim_1_up() {
     }
 
     endpoint_keyboard_send_report(keycodes);
+    effect_update_keyboard(keyboard_down);
 }

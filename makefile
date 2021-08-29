@@ -19,8 +19,8 @@ FLASHER = st-flash
 LDFILES = $(ANOTHER)/stm32f103xb.ld
 
 FLGCOMP = -I $(HEADERS) -I $(MCULIBS) -mcpu=cortex-m3 -mthumb \
-		  -Ofast -flto -nostdlib -fno-builtin -T $(LDFILES) \
-		  -Wall -Wextra -Wpedantic -Wno-main
+          -Ofast -flto -nostdlib -fno-builtin -T $(LDFILES) \
+          -Wall -Wextra -Wpedantic -Wno-main
 FLGSIZE = -Gd
 FLGDUMP = -d
 FLGCOPY = -O binary
