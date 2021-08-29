@@ -1,6 +1,6 @@
 #include "universal_serial_bus.h"
 
-static void (*universal_serial_bus_interrupt[])() = {
+static void (* const universal_serial_bus_interrupt[])() = {
     endpoint_control_interrupt,
     endpoint_keyboard_interrupt,
 };
@@ -30,5 +30,4 @@ void interrupt_usb_lp_can_1_rx_0() {
     } else if (istr & USB_ISTR_CTR) {
         universal_serial_bus_switch_endpoint(epid);
     }
-
 }

@@ -64,7 +64,7 @@ static void initialization_backlight() {
 
     TIM3->PSC   = 0;
     TIM3->CCR3  = 0;
-    TIM3->ARR   = 79;
+    TIM3->ARR   = 89;
     TIM3->CCER  = TIM_CCER_CC3E;
     TIM3->CCMR2 = TIM_CCMR2_OC3PE | TIM_CCMR2_OC3M_1 | TIM_CCMR2_OC3M_2;
     TIM3->EGR   = TIM_EGR_UG;
@@ -75,7 +75,6 @@ static void initialization_backlight() {
     DMA1_Channel2->CCR  = DMA_CCR_MSIZE_0 | DMA_CCR_MINC | DMA_CCR_DIR |
                           DMA_CCR_PSIZE_0 | DMA_CCR_TCIE;
     DMA1_Channel2->CPAR = ((uint32_t) &TIM3->CCR3);
-    DMA1_Channel2->CMAR = ((uint32_t) backlight_full);
 }
 
 static void initialization_keyboard() {

@@ -1,1 +1,0 @@
-../sources/backlight/effect_static/effect_static.h

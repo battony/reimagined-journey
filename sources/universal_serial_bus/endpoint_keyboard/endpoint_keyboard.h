@@ -14,4 +14,4 @@ void endpoint_keyboard_reset();
 
 void endpoint_keyboard_interrupt();
 
-void endpoint_keyboard_send_report(const uint8_t*);
+void endpoint_keyboard_send_report(const uint8_t[EP_KEYBOARD_BUF_MAX]);

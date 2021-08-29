@@ -4,3 +4,7 @@
 # ignore executables
 *.elf
 *.bin
+
+# ignore vim temporary files
+*.swp
+*.swo

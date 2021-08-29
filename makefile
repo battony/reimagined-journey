@@ -19,12 +19,12 @@ FLASHER = st-flash
 LDFILES = $(ANOTHER)/stm32f103xb.ld
 
 FLGCOMP = -I $(HEADERS) -I $(MCULIBS) -mcpu=cortex-m3 -mthumb \
-		  -O3 -flto -nostdlib -fno-builtin -T $(LDFILES) \
+		  -Ofast -flto -nostdlib -fno-builtin -T $(LDFILES) \
 		  -Wall -Wextra -Wpedantic -Wno-main
 FLGSIZE = -Gd
 FLGDUMP = -d
 FLGCOPY = -O binary
-FLGFLSH = write
+FLGFLSH = --reset write
 
 .PHONY:  clean flash dump size
 .SILENT: clean

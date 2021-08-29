@@ -30,4 +30,4 @@ interrupt_reset:
     b       1b
 
 1:
-    bl      main
+    b       main

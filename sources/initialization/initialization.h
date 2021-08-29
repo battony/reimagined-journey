@@ -1,7 +1,6 @@
 #pragma once
 
 #include "configuration.h"
-#include "backlight.h"
 
 #define INIT_NVIC_PRIORITY_15 (0x00)
 #define INIT_NVIC_PRIORITY_14 (0x10)

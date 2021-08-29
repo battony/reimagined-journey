@@ -1,11 +1,11 @@
 #include "endpoint_control.h"
 
-static volatile uint16_t command;
-static volatile uint16_t address;
-static volatile uint16_t configuration;
-static volatile uint16_t idle;
-static volatile uint16_t protocol;
-static volatile uint16_t sended;
+static volatile uint16_t endpoint_control_command;
+static volatile uint16_t endpoint_control_address;
+static volatile uint16_t endpoint_control_configuration;
+static volatile uint16_t endpoint_control_idle;
+static volatile uint16_t endpoint_control_protocol;
+static volatile uint16_t endpoint_control_sended;
 
 static void endpoint_control_get_descriptor(const uint8_t* descriptor,
         uint16_t size, uint16_t req_size) {
@@ -13,9 +13,9 @@ static void endpoint_control_get_descriptor(const uint8_t* descriptor,
     uint32_t send = req_size < size ? req_size : size;
 
     if (epnr & USB_EP_SETUP)
-        sended = 0;
+        endpoint_control_sended = 0;
 
-    send -= sended;
+    send -= endpoint_control_sended;
     if (send > EP_CONTROL_BUF_MAX)
         send = EP_CONTROL_BUF_MAX;
 
@@ -23,9 +23,9 @@ static void endpoint_control_get_descriptor(const uint8_t* descriptor,
         endpoint_set_buffer(
                 EP_CONTROL_TX_BUF,
                 EP_CONTROL_TX_CNT,
-                descriptor + sended, send); 
+                descriptor + endpoint_control_sended, send); 
         endpoint_set_status(&USB->EP0R, USB_EP_RX_VALID | USB_EP_TX_VALID);
-        sended += send;
+        endpoint_control_sended += send;
     } else {
         endpoint_set_status(&USB->EP0R, USB_EP_RX_VALID | USB_EP_TX_STALL);
     }
@@ -43,22 +43,22 @@ static void endpoint_control_set_value(volatile uint16_t* value) {
 
 static void endpoint_control_set_address() {
     uint32_t epnr = USB->EP0R;
-    endpoint_control_set_value(&address);
+    endpoint_control_set_value(&endpoint_control_address);
 
     if (epnr & USB_EP_CTR_TX)
-        USB->DADDR |= address;
+        USB->DADDR |= endpoint_control_address;
 }
 
 static void endpoint_control_set_configuration() {
-    endpoint_control_set_value(&configuration);
+    endpoint_control_set_value(&endpoint_control_configuration);
 }
 
 static void endpoint_control_set_idle() {
-    endpoint_control_set_value(&idle);
+    endpoint_control_set_value(&endpoint_control_idle);
 }
 
 static void endpoint_control_set_protocol() {
-    endpoint_control_set_value(&protocol);
+    endpoint_control_set_value(&endpoint_control_protocol);
 }
 
 static void endpoint_control_get_descriptor_standard() {
@@ -119,10 +119,10 @@ void endpoint_control_reset() {
 
 void endpoint_control_interrupt() {
     if (USB->EP0R & USB_EP_SETUP)
-        command = EP_CONTROL_RX_BUF[0];
+        endpoint_control_command = EP_CONTROL_RX_BUF[0];
     
     void (*handler)();
-    switch (command) {
+    switch (endpoint_control_command) {
         case EP_CONTROL_GET_DESCRIPTOR_STANDARD:
         case EP_CONTROL_GET_DESCRIPTOR_INTERFACE:
             handler = endpoint_control_get_descriptor_standard;
