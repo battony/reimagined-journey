@@ -1,6 +1,7 @@
 #pragma once
 
 #include "configuration.h"
+#include "effect.h"
 
 #define BACKLIGHT_LOW              (22)
 #define BACKLIGHT_HIGH             (68)

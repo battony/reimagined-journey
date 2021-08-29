@@ -23,8 +23,7 @@ void interrupt_tim_2() {
     if (++backlight_buffer_id == BACKLIGHT_BUFFER_COUNT)
         backlight_buffer_id = 0;
 
-    for (uint32_t i = 0; i < CONFIG_LED_COUNT; i++)
-        backlight_set_color(i, 0x0F0503);
+    effect_update();
 
     DMA1_Channel2->CMAR  = ((uint32_t) backlight_get_buffer());
     DMA1_Channel2->CNDTR = BACKLIGHT_BUFFER_FULL_LEN;

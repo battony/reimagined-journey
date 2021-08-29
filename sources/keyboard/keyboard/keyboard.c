@@ -38,16 +38,45 @@ void interrupt_tim_1_up() {
         }
     }
 
+    uint8_t layout_id = keyboard_layout_id;
     for (uint32_t i = 0; i < CONFIG_ROW_COUNT; i++) {
         for (uint32_t j = 0; j < CONFIG_COL_COUNT; j++) {
+            key_t key = layouts[keyboard_layout_id][i][j];
+            if (keyboard_down[i][j] && key.type == KEYCODE_TYPE_LAYOUT_HOLD) 
+                layout_id = key.value;
+        }
+    }
+
+    for (uint32_t i = 0; i < CONFIG_ROW_COUNT; i++) {
+        for (uint32_t j = 0; j < CONFIG_COL_COUNT; j++) {
+            key_t key = layouts[layout_id][i][j];
+            if (keyboard_fall[i][j] && key.type == KEYCODE_TYPE_LAYOUT_PRESS) 
+                keyboard_layout_id = layout_id = key.value;
+        }
+    }
+
+    for (uint32_t i = 0; i < CONFIG_ROW_COUNT; i++) {
+        for (uint32_t j = 0; j < CONFIG_COL_COUNT; j++) {
+            key_t key = layouts[layout_id][i][j];
+
             if (keyboard_down[i][j]) {
-                key_t key = layouts[keyboard_layout_id][i][j];
                 switch (key.type) {
-                    case KEYTYPE_STANDARD:
+                    case KEYCODE_TYPE_STANDARD:
                         keycodes[position++] = key.value;
                         break;
-                    case KEYTYPE_MODIFIER:
+                    case KEYCODE_TYPE_MODIFIER:
                         keycodes[0] |= key.value;
+                        break;
+                }
+            }
+
+            if (keyboard_fall[i][j]) {
+                switch (key.type) {
+                    case KEYCODE_TYPE_BACKLIGHT_MODE:
+                        effect_update_mode();
+                        break;
+                    case KEYCODE_TYPE_BACKLIGHT_EFFECT:
+                        effect_next();
                         break;
                 }
             }
